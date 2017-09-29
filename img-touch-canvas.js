@@ -198,23 +198,35 @@ This code may be freely distributed under the MIT License
             }.bind(this));
 
             if(this.desktop) {
-                // keyboard+mouse
+				// keyboard+mouse
+				  var handleScroll = function(evt){
+					console.debug('Mouse scroll');
+					var delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
+					this.doZoom(delta);
+					return evt.preventDefault() && false;
+				}.bind(this);	
+				 this.canvas.addEventListener('DOMMouseScroll',handleScroll,false);
+				 this.canvas.addEventListener('mousewheel',handleScroll,false);
+				
+
                 window.addEventListener('keyup', function(e) {
-                    if(e.keyCode == 187 || e.keyCode == 61) { //+
+                    if(e.keyCode == 107 || e.keyCode == 43|| e.keyCode == 61|| e.keyCode == 187) { //+ -- differnt key codes on various browsers
                         this.doZoom(5);
                     }
-                    else if(e.keyCode == 54) {//-
+                    else if(e.keyCode == 109 || e.keyCode == 45|| e.keyCode == 173|| e.keyCode == 189) {//- -- differnt key codes on various browsers
                         this.doZoom(-5);
                     }
                 }.bind(this));
 
                 window.addEventListener('mousedown', function(e) {
+					console.debug('Mouse down');
                     this.mdown = true;
                     this.lastX = null;
                     this.lastY = null;
                 }.bind(this));
 
                 window.addEventListener('mouseup', function(e) {
+										console.debug('Mouse ups');
                     this.mdown = false;
                 }.bind(this));
 
